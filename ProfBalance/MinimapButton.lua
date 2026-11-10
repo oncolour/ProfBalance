@@ -122,10 +122,11 @@ function M.Create()
 	bg:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
 	bg:SetPoint("TOPLEFT", button, "TOPLEFT", 7, -5)
 
+	-- Same footprint as the 20x20 background: that is the circle inside the tracking border.
 	local icon = button:CreateTexture(nil, "ARTWORK")
-	icon:SetSize(19, 19)
+	icon:SetSize(20, 20)
 	icon:SetTexture("Interface\\AddOns\\" .. addonName .. "\\Media\\icon_minimap")
-	icon:SetPoint("TOPLEFT", button, "TOPLEFT", 6, -5)
+	icon:SetPoint("TOPLEFT", button, "TOPLEFT", 7, -5)
 	-- Round off the square texture so it sits cleanly inside the tracking border.
 	if icon.SetMask then icon:SetMask("Interface\\CharacterFrame\\TempPortraitAlphaMask") end
 	button.icon = icon
