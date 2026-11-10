@@ -23,8 +23,7 @@ A small movable window with:
   your level where nodes still give skill-ups are suggested. The row tooltip lists the top three.
 - **Level-up summary in chat** for professions that lag behind (can be turned off).
 - **Minimap button**: left-click toggles the window, right-click prints the summary, drag to move
-  it around the minimap. The icon takes the colour of your worst profession. Hide it with
-  `/profbalance minimap`.
+  it around the minimap. Hide it with `/profbalance minimap`.
 
 ### The model
 

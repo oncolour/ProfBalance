@@ -135,20 +135,6 @@ function M.Create()
 	border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 	border:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
 
-	-- Small status dot in the lower right: coloured by the worst pace status.
-	local dotBg = button:CreateTexture(nil, "OVERLAY", nil, 6)
-	dotBg:SetSize(11, 11)
-	dotBg:SetTexture("Interface\\Buttons\\WHITE8X8")
-	dotBg:SetVertexColor(0, 0, 0, 0.9)
-	if dotBg.SetMask then dotBg:SetMask("Interface\\CharacterFrame\\TempPortraitAlphaMask") end
-	dotBg:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -3, 4)
-	local dot = button:CreateTexture(nil, "OVERLAY", nil, 7)
-	dot:SetSize(7, 7)
-	dot:SetTexture("Interface\\Buttons\\WHITE8X8")
-	if dot.SetMask then dot:SetMask("Interface\\CharacterFrame\\TempPortraitAlphaMask") end
-	dot:SetPoint("CENTER", dotBg, "CENTER", 0, 0)
-	button.dot, button.dotBg = dot, dotBg
-
 	button:SetScript("OnClick", function(_, btn)
 		if btn == "RightButton" then
 			if ns.PrintSummary then ns.PrintSummary() end
@@ -174,20 +160,13 @@ end
 
 function M.GetButton() return button end
 
--- Colour the status dot by the worst pace status and apply show/hide.
+-- Apply show/hide and keep the button on the minimap rim. The worst pace status is kept
+-- for the tooltip and tests, but the icon itself is left untouched.
 function M.Refresh()
 	if not button then return end
 	if settings().hide then button:Hide() else button:Show() end
 	updatePosition() -- the minimap may have been resized by another addon after login
-	local worst = worstStatus(ns.lastModel)
-	if worst then
-		local c = Core.StatusInfo[worst].color
-		button.dot:SetVertexColor(c[1], c[2], c[3], 1)
-		button.dot:Show(); button.dotBg:Show()
-	else
-		button.dot:Hide(); button.dotBg:Hide()
-	end
-	button.worst = worst
+	button.worst = worstStatus(ns.lastModel)
 end
 
 function M.SetHidden(flag)

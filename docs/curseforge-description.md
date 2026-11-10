@@ -21,7 +21,7 @@
 - **A zone panel** listing the Mining and Herbalism nodes in the zone you are standing in: green gives skill-ups, gray is too easy, red is locked with the requirement in brackets. Skinning is judged against the zone's level range. A one-line tip says what unlocks next, e.g. "17 more skill unlocks Iron Deposit (125)".
 - **Zone suggestions** when your current zone has nothing left to give: the two best zones near your level where nodes still give skill-ups. The row tooltip lists the top three.
 - **Level-up summary** in chat for professions that lag behind (can be turned off).
-- **Minimap button**: left-click toggles the window, hover shows an overview of all professions, drag to move. The icon takes the colour of your worst profession.
+- **Minimap button**: left-click toggles the window, hover shows an overview of all professions, drag to move.
 
 ### How "in sync" is decided
 
