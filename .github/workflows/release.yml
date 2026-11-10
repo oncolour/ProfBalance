@@ -16,7 +16,7 @@ jobs:
 
       - name: Check tag matches TOC version
         run: |
-          TOC_VERSION=$(grep -E '^## Version:' ProfBalance/ProfBalance.toc | awk '{print $3}')
+          TOC_VERSION=$(grep -E '^## Version:' ProfBalance.toc | awk '{print $3}')
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           echo "toc=$TOC_VERSION tag=$TAG_VERSION"
           test "$TOC_VERSION" = "$TAG_VERSION"
@@ -24,8 +24,8 @@ jobs:
       - name: Build zip
         run: |
           mkdir -p dist/stage/ProfBalance
-          cp ProfBalance/*.lua ProfBalance/*.toc dist/stage/ProfBalance/
-          cp -r ProfBalance/Media dist/stage/ProfBalance/
+          cp *.lua *.toc dist/stage/ProfBalance/
+          cp -r Media dist/stage/ProfBalance/
           cp LICENSE dist/stage/ProfBalance/LICENSE.txt
           cp CHANGELOG.md dist/stage/ProfBalance/
           cd dist/stage && zip -r "../ProfBalance-${GITHUB_REF_NAME#v}.zip" ProfBalance

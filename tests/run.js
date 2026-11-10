@@ -5,7 +5,7 @@ const path = require("path");
 const { lua, lauxlib, lualib, to_luastring, to_jsstring } = require("fengari");
 
 const root = path.resolve(__dirname, "..");
-const addonDir = path.join(root, "ProfBalance");
+const addonDir = root; // the TOC and Lua files live in the repository root
 const verbose = process.argv.includes("-v");
 
 const L = lauxlib.luaL_newstate();

@@ -41,7 +41,7 @@ The difference from the target gives the verdict: ≥ −10 in sync, −11…−
 −41…−90 behind, below that far behind, above +25 ahead. The row tooltip says which target is used.
 
 Node counts per zone come from GatherMate2's Forever export from Wowhead (v2026-10-17),
-aggregated into spawns per node type and zone (`ProfBalance/ZoneNodes.lua`). Zone names are
+aggregated into spawns per node type and zone (`ZoneNodes.lua`). Zone names are
 resolved live via `C_Map`. Two new Forever zones (uiMapID 2521/2548) are identified as Zephras
 Isle and Riverglades from their node content; please report mismatches.
 
@@ -97,12 +97,12 @@ node tools/package.js               # builds dist/ProfBalance-<version>.zip for 
 git tag v0.1.0 && git push --tags   # GitHub Actions builds the same zip and creates a release
 ```
 
-CurseForge uploads are done through their website (zip plus the text in `docs/curseforge-description.md`).
+CurseForge packages the repository automatically from the GitHub webhook when a tag is pushed (see `.pkgmeta`).
 
 ## License and sources
 
 ProfBalance is free software under the **GNU GPL v2 or later** (see `LICENSE`).
-The zone table `ProfBalance/ZoneNodes.lua` is an aggregate (spawns per node type and zone)
+The zone table `ZoneNodes.lua` is an aggregate (spawns per node type and zone)
 derived from **GatherMate2_Data** by kagaro, Xinhuan, Spinx and Marrtin (GPL v2+), which in
 turn is built from **Wowhead** data. The script that does the derivation lives in `tools/`.
 Node and rank skill requirements are the game's own values, checked against community guides.
@@ -110,15 +110,15 @@ Node and rank skill requirements are the game's own values, checked against comm
 ## Layout
 
 ```
-ProfBalance/
-  ProfBalance.toc    Interface 16001
-  Data.lua           skill lines, ranks, node requirements, zone level ranges
-  ZoneNodes.lua      generated: node counts per zone
-  Core.lua           pure logic (testable without WoW)
-  API.lua            pcall-guarded WoW API wrapper, treats secret values as missing
-  UI.lua             the window and tooltips
-  MinimapButton.lua  minimap button without libraries
-  ProfBalance.lua    events, SavedVariables, slash commands
+ProfBalance.toc    Interface 16001 (addon files live in the repo root so CurseForge can package it)
+Data.lua           skill lines, ranks, node requirements, zone level ranges
+ZoneNodes.lua      generated: node counts per zone
+Core.lua           pure logic (testable without WoW)
+API.lua            pcall-guarded WoW API wrapper, treats secret values as missing
+UI.lua             the window and tooltips
+MinimapButton.lua  minimap button without libraries
+ProfBalance.lua    events, SavedVariables, slash commands
+Media/             icons
 tests/               fengari-based test suite with a WoW mock
 tools/               install.js, package.js, build_zone_nodes.js
 docs/                design notes, CurseForge text, screenshots

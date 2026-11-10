@@ -1,0 +1,15 @@
+package-as: ProfBalance
+
+manual-changelog: CHANGELOG.md
+
+license-output: LICENSE.txt
+
+ignore:
+  - tests
+  - tools
+  - docs
+  - dist
+  - node_modules
+  - package.json
+  - package-lock.json
+  - README.md

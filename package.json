@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node tests/run.js",
-    "build:zones": "node tools/build_zone_nodes.js > ProfBalance/ZoneNodes.lua",
+    "build:zones": "node tools/build_zone_nodes.js > ZoneNodes.lua",
     "install": "node tools/install.js"
   },
   "keywords": [],

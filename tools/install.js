@@ -5,7 +5,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const src = path.resolve(__dirname, "..", "ProfBalance");
+// The repository root is the addon folder (TOC at root), so the junction points at the repo itself.
+// WoW only loads files listed in the TOC, so tests/, tools/ and node_modules/ are ignored by the client.
+const src = path.resolve(__dirname, "..");
 const addons = process.env.WOW_FOREVER_ADDONS || "C:/Program Files (x86)/World of Warcraft/_forever_/Interface/AddOns";
 const dst = path.join(addons, "ProfBalance");
 const args = new Set(process.argv.slice(2));
@@ -29,7 +31,11 @@ if (args.has("--remove")) {
 if (args.has("--copy")) {
   if (isJunction(dst)) fs.unlinkSync(dst);
   fs.rmSync(dst, { recursive: true, force: true });
-  fs.cpSync(src, dst, { recursive: true });
+  const skip = new Set(["node_modules", ".git", ".github", "tests", "tools", "docs", "dist"]);
+  fs.cpSync(src, dst, {
+    recursive: true,
+    filter: (p) => !skip.has(path.basename(p)) && (fs.statSync(p).isDirectory() || /\.(lua|toc|xml|tga|blp|md|txt)$/i.test(p)),
+  });
   console.log("Copied addon to " + dst);
 } else {
   if (isJunction(dst)) fs.unlinkSync(dst);

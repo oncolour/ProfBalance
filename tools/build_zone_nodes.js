@@ -1,5 +1,5 @@
 // Aggregates GatherMate2's Forever node data (Wowhead export) into per-zone node counts.
-// Usage: node tools/build_zone_nodes.js > ProfBalance/ZoneNodes.lua
+// Usage: node tools/build_zone_nodes.js > ZoneNodes.lua
 const fs = require("fs");
 const base = "C:/Program Files (x86)/World of Warcraft/_forever_/Interface/AddOns/GatherMate2_Data/Forever/";
 function parse(file) {
