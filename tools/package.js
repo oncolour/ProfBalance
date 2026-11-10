@@ -19,12 +19,15 @@ fs.rmSync(out, { force: true });
 const stage = path.join(dist, "stage");
 fs.rmSync(stage, { recursive: true, force: true });
 fs.mkdirSync(path.join(stage, "ProfBalance"), { recursive: true });
-const skip = new Set(["node_modules", ".git", ".github", "tests", "tools", "docs", "dist", "README.md"]);
-fs.cpSync(addon, path.join(stage, "ProfBalance"), {
-  recursive: true,
-  filter: (src) => !skip.has(path.basename(src)) && (fs.statSync(src).isDirectory() || /\.(lua|toc|xml|tga|blp)$/i.test(src) || /CHANGELOG\.md$/.test(src)),
-});
-fs.copyFileSync(path.join(root, "LICENSE"), path.join(stage, "ProfBalance", "LICENSE.txt"));
+// Copy only what the addon needs: top-level Lua/TOC files, the Media folder, changelog and licence.
+// (The staging dir lives inside the repo, so a recursive copy of the root is not allowed.)
+const target = path.join(stage, "ProfBalance");
+for (const f of fs.readdirSync(addon)) {
+  if (/\.(lua|toc|xml)$/i.test(f)) fs.copyFileSync(path.join(addon, f), path.join(target, f));
+}
+fs.cpSync(path.join(addon, "Media"), path.join(target, "Media"), { recursive: true });
+fs.copyFileSync(path.join(root, "CHANGELOG.md"), path.join(target, "CHANGELOG.md"));
+fs.copyFileSync(path.join(root, "LICENSE"), path.join(target, "LICENSE.txt"));
 
 execFileSync("powershell.exe", [
   "-NoProfile", "-Command",
