@@ -7,6 +7,7 @@
 ## X-Category: Professions
 ## X-Website: https://github.com/oncolour/ProfBalance
 ## X-CurseForge: https://www.curseforge.com/wow/addons/profbalance
+## X-Curse-Project-ID: 1796898
 ## X-Credits: Zone node counts derived from GatherMate2_Data (GPL v2+, kagaro, Xinhuan, Spinx, Marrtin), itself built from Wowhead data.
 ## SavedVariables: ProfBalanceDB
 ## IconTexture: Interface\AddOns\ProfBalance\Media\icon_logo
