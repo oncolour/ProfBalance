@@ -1,59 +1,62 @@
 # ProfBalance – design (2026-11-10)
 
-## Avsikt
+## Intent
 
-Oscar spelar WoW: Forever (släppt 2026-11-04) och vill veta, utan att räkna själv, om
-professions-skillen hänger med levlingen så att han kan samla noder i zonen han är i och
-crafta saker han faktiskt kan använda. Addonet ska ge svaret i en blick, i spelet.
+Oscar plays WoW: Forever (released 2026-11-04) and wants to know, without doing the maths,
+whether profession skill keeps up with levelling, so he can gather nodes in the zone he is in
+and craft things he can actually use. The addon should give that answer at a glance, in game.
 
-Användaren valde att hoppa över frågerundan; valen nedan är mina och är markerade så.
+The user chose to skip the question round; the choices below are mine and are marked as such.
 
-## Mål
+## Goals
 
-- Per profession: är jag i takt, efter, eller före för min level? Kan/bör jag träna nästa rank?
-- I zonen jag står i: vilka noder kan jag samla, vilka ger fortfarande skill, vad saknas?
-- När zonen är "grå": vart ska jag åka i stället, nära min level?
-- Noll konfiguration, inga externa bibliotek, fungerar direkt vid inloggning.
+- Per profession: am I in step, behind, or ahead for my level? Can or should I train the next rank?
+- In the zone I am standing in: which nodes can I gather, which still give skill, what is missing?
+- When the zone is "gray": where should I go instead, close to my level?
+- Zero configuration, no external libraries, works right after login.
 
-## Icke-mål
+## Non-goals
 
-- Ingen nodkarta/minimappins (GatherMate2 finns redan).
-- Inga crafting-rutter eller inköpslistor (Forever Profession Master finns).
-- Ingen auktionsdata.
+- No node map or minimap pins (GatherMate2 already does this).
+- No crafting routes or shopping lists (Forever Profession Master does this).
+- No auction house data.
 
-## Anti-mål
+## Anti-goals
 
-- Får aldrig kasta Lua-fel som stör spelet: alla API-anrop är pcall-skyddade och secret
-  values behandlas som saknade (Forever kör Midnight-API:ets restriktioner).
-- Får inte påstå saker om Forever-specifika förändringar som inte är verifierade; sådant är
-  markerat `inferred` i datan och i README.
+- Must never throw Lua errors that disturb play: every API call is pcall-guarded and secret
+  values are treated as missing (Forever runs the Midnight API restrictions).
+- Must not claim Forever-specific changes that are unverified; such data is marked `inferred`
+  in the tables and in the README.
 
-## Begränsningar
+## Constraints
 
-- Klient: Forever 1.60.1 (build 70862), Interface 16001, Mainline-liknande API.
-- Lua 5.1-dialekt i klienten; testerna körs under fengari (5.3) så koden håller sig till
-  den gemensamma delmängden.
-- Testning i klienten kan bara göras av Oscar; därför finns `/profbalance debug`.
+- Client: Forever 1.60.1 (build 70862), Interface 16001, Mainline-like API.
+- Lua 5.1 dialect in the client; tests run under fengari (5.3), so the code sticks to the
+  common subset.
+- Testing in the client can only be done by Oscar; hence `/profbalance debug`.
 
-## Beslut (mina)
+## Decisions (mine)
 
-- **Modell**: skill ≈ 5 × level som riktmärke för crafting/sekundära, statusband enligt README.
-  Enkelt, välkänt, och alltid under det cap som levelkravet för nästa rank tillåter.
-  **Ändrat 2026-11-10 på Oscars begäran**: Mining/Herbalism använder i stället ett datadrivet
-  mål (viktad 80:e percentil av nodkraven i zoner för leveln, utjämnat ±2 levels), eftersom
-  en jämförelse mot noddatan visade att 5 × level var för snällt vid level 10–40 och för
-  strängt över 50.
-- **Noddata**: återanvänder GatherMate2_Data (Forever-export från Wowhead) som redan ligger
-  installerad; aggregeras till `ZoneNodes.lua` med ett Node-skript. Rare-noder och noder
-  under 2 % av zonens spawns döljs som förslag.
-- **Zonnamn** löses i klienten via `C_Map.GetMapInfo`; tabellen i `Data.lua` är fallback.
-- **UI**: egen enkel frame med BackdropTemplate, statusbars, tooltips. Inga Ace-bibliotek.
-- **Språk**: engelska i spelet (matchar klienten), svenska i README/dokument.
-- **Install**: junction från repot till AddOns-mappen för snabb iteration.
+- **Model**: skill ≈ 5 × level as the target for crafting and secondary professions, verdict
+  bands as in the README. Simple, well known, and always below the cap the next rank's level
+  requirement allows. **Changed 2026-11-10 at Oscar's request**: Mining/Herbalism use a
+  data-driven target instead (weighted 80th percentile of node requirements in zones for the
+  level, smoothed ±2 levels), because a comparison against the node data showed 5 × level was
+  too lenient at levels 10–40 and too strict above 50.
+- **Node data**: reuses GatherMate2_Data (Forever export from Wowhead) already installed on
+  the machine; aggregated into `ZoneNodes.lua` by a Node script. Rare nodes and nodes below 2%
+  of a zone's spawns are hidden from suggestions.
+- **Zone names** are resolved in the client via `C_Map.GetMapInfo`; the table in `Data.lua`
+  is a fallback.
+- **UI**: own simple frame with BackdropTemplate, status bars, tooltips. No Ace libraries.
+  Own minimap button without LibDBIcon; radius follows the minimap's real size.
+- **Language**: English in game and in the repository.
+- **Install**: junction from the repo into the AddOns folder for fast iteration.
+- **Licence**: GPL v2 or later, because the zone table derives from GPL v2+ data.
 
-## Lämnat till verifiering i spelet
+## Left for verification in game
 
-- Att `GetProfessions`/`GetProfessionInfo` returnerar som på Mainline (bekräftat av andra
-  Forever-addons som ForeverFishing och GatherMate2, men inte av mig i klienten).
-- uiMapID 2521/2548: namn och levelspann.
-- Sekundära professioners rank-trösklar (bok/quest på Forever).
+- That `GetProfessions`/`GetProfessionInfo` return as on Mainline (confirmed by other Forever
+  addons such as ForeverFishing and GatherMate2, and by Oscar's debug output on 2026-11-10).
+- uiMapID 2521/2548: name and level range.
+- Rank thresholds of the secondary professions (book/quest on Forever).

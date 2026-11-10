@@ -1,114 +1,123 @@
-# ProfBalance – håller dina professions i takt med din level (WoW: Forever)
+# ProfBalance – keep your professions in step with your level (WoW: Forever)
 
-Ett litet addon för World of Warcraft: Forever som svarar på frågan
-*"ligger mina professions i balans med min level?"* och *"kan jag samla/skilla upp här jag står?"*
+A small addon for World of Warcraft: Forever that answers two questions while you level:
+*are my professions keeping pace with my character?* and *can I gather or skill up where I am right now?*
 
-## Vad det visar
+![Main window with tooltip](docs/screenshots/main-window-tooltip.png)
 
-En liten flyttbar ruta med:
+## What it shows
 
-- **En rad per profession**: ikon, skill/cap, en stapel 0–300 med ett vitt streck för
-  var du *borde* ligga på din level, och en status: *In sync*, *Slightly behind*, *Behind*,
-  *Far behind* eller *Ahead*. När du kan träna nästa rank (Journeyman/Expert/Artisan)
-  byts statusen mot en gul uppmaning.
-- **Zonsektion**: för Mining/Herbalism listas zonens noder i färg:
-  grönt = ger skill-ups här, grått = för lätt (gråa), rött = låst (krav inom parentes).
-  Skinning bedöms mot zonens levelspann. Under varje rad en kort tipsrad, t.ex.
-  "5 more skill unlocks Silver Vein (75)" eller "everything here is gray – move on".
-- **Zonförslag**: när zonen inte ger några skill-ups längre föreslås 1–2 zoner nära din
-  level där noderna fortfarande ger skill. Tooltip på raden visar topp 3.
-- **Level-up-rapport i chatten** för professions som släpar efter (kan stängas av).
-- **Minimap-knapp**: vänsterklick togglar rutan, högerklick skriver sammanfattningen i
-  chatten, dra för att flytta den runt minimappen. Ikonen färgas efter den profession som
-  släpar mest. Döljs med `/profbalance minimap`.
+A small movable window with:
 
-### Modellen
+- **One row per profession**: icon, skill/cap, a 0–300 bar with a white marker for where your
+  level expects you to be, and a verdict: *In sync*, *Slightly behind*, *Behind*, *Far behind*
+  or *Ahead*. When you can train the next rank (Journeyman / Expert / Artisan) the verdict is
+  replaced by a yellow reminder.
+- **Zone panel**: for Mining and Herbalism the nodes of your current zone are listed in colour:
+  green gives skill-ups, gray is too easy, red is locked with the requirement in brackets.
+  Skinning is judged against the zone's level range. A one-line tip follows, such as
+  "5 more skill unlocks Silver Vein (75)" or "everything here is gray – move on".
+- **Zone suggestions**: when the current zone has nothing left to give, the two best zones near
+  your level where nodes still give skill-ups are suggested. The row tooltip lists the top three.
+- **Level-up summary in chat** for professions that lag behind (can be turned off).
+- **Minimap button**: left-click toggles the window, right-click prints the summary, drag to move
+  it around the minimap. The icon takes the colour of your worst profession. Hide it with
+  `/profbalance minimap`.
 
-**Mining och Herbalism** har ett datadrivet riktmärke: den skill som krävs för att kunna samla
-~80 % av nodspawnsen i zoner vars levelspann innehåller din level. Zoner nära din level väger
-mer, och värdet jämnas ut över ±2 levels. Kurvan blir ungefär 40 vid level 10, 75 vid 20,
-125 vid 25, 145 vid 30, 230 vid 45 och 275 vid 60 för Mining; Herbalism ligger något högre
-(t.ex. 107 vid 20, 148 vid 30, 290 vid 60).
+### The model
 
-**Övriga professions** använder tumregeln **skill ≈ 5 × level** (max 300, inget krav före level 5),
-som bygger på spelets egna formler (vapenskill och skinning-krav är 5 × level) och på att
-craftad utrustning grovt kräver level ≈ skill / 5.
+**Mining and Herbalism** use a data-driven target: the skill needed to gather about 80% of the
+node spawns in zones whose level range contains your level. Zones close to your level weigh
+more, and the value is smoothed over ±2 levels. The curve is roughly 40 at level 10, 75 at 20,
+125 at 25, 145 at 30, 230 at 45 and 275 at 60 for Mining; Herbalism runs slightly higher
+(about 107 at 20, 148 at 30, 290 at 60).
 
-Avvikelsen från riktmärket ger statusen: ≥ −10 in sync, −11…−40 slightly behind, −41…−90 behind,
-under det far behind, över +25 ahead. Tooltipen på raden visar vilket riktmärke som används. Rank-trösklar: Journeyman skill 50/level 10, Expert 125/20,
-Artisan 200/35. En nod ger skill-ups tills du ligger ~100 över dess krav.
+**All other professions** use the classic rule of thumb **skill ≈ 5 × level** (max 300, nothing
+expected before level 5). It matches the game's own formulas (weapon skill and skinning
+requirements are 5 × level) and the fact that crafted gear roughly requires level ≈ skill / 5.
 
-Noddata per zon kommer från GatherMate2:s Forever-export från Wowhead (v2026-10-17),
-aggregerad till antal spawns per nodtyp och zon (`ProfBalance/ZoneNodes.lua`). Zonnamn
-hämtas live via `C_Map`. Två nya Forever-zoner (uiMapID 2521/2548) är identifierade
-som Zephras Isle respektive Riverglades utifrån nodinnehållet – verifiera i spelet.
+The difference from the target gives the verdict: ≥ −10 in sync, −11…−40 slightly behind,
+−41…−90 behind, below that far behind, above +25 ahead. The row tooltip says which target is used.
 
-## Kommandon
+Node counts per zone come from GatherMate2's Forever export from Wowhead (v2026-10-17),
+aggregated into spawns per node type and zone (`ProfBalance/ZoneNodes.lua`). Zone names are
+resolved live via `C_Map`. Two new Forever zones (uiMapID 2521/2548) are identified as Zephras
+Isle and Riverglades from their node content; please report mismatches.
+
+## Commands
 
 ```
-/profbalance            växla rutan (även /pbal)
+/profbalance            toggle the window (also /pbal)
 /profbalance lock|unlock
-/profbalance reset      återställ position och skala
+/profbalance reset      reset position and scale
 /profbalance scale 1.2
-/profbalance minimap    visa/dölj minimap-knappen
-/profbalance secondary  visa/dölj Cooking, First Aid, Fishing
-/profbalance rare       visa även sällsynta noder (Black Lotus m.fl.)
-/profbalance announce   level-up-rapport av/på
-/profbalance summary    skriv ut läget i chatten
-/profbalance debug      klientversion, zon-id, råa profession-värden
+/profbalance minimap    show/hide the minimap button
+/profbalance secondary  show/hide Cooking, First Aid, Fishing
+/profbalance rare       also list rare nodes (Black Lotus etc.)
+/profbalance announce   level-up summary on/off
+/profbalance summary    print the current state to chat
+/profbalance debug      client version, zone id, raw profession values
 ```
 
-Addonet finns också i addon-menyn vid minimappen (addon compartment).
+The addon also appears in the addon compartment menu next to the minimap.
 
-## Installation / utveckling
+## Installation
+
+**Players:** download the zip from the [latest release](https://github.com/oncolour/ProfBalance/releases)
+or CurseForge and unpack it so that you get `World of Warcraft\_forever_\Interface\AddOns\ProfBalance\ProfBalance.toc`.
+
+**Developers:**
 
 ```
-npm install            # engångs, hämtar fengari för testerna
-npm test               # kör testsviten headless (ingen WoW-klient behövs)
-node tools/install.js  # skapar en junction i _forever_/Interface/AddOns/ProfBalance
-node tools/install.js --copy    # kopiera i stället för att länka
-node tools/install.js --remove  # avinstallera
-npm run build:zones    # bygg om ZoneNodes.lua från GatherMate2_Data när den uppdateras
+npm install                       # once; fetches fengari for the headless tests
+npm test                          # run the test suite (no WoW client needed)
+node tools/install.js             # junction into _forever_/Interface/AddOns/ProfBalance
+node tools/install.js --copy      # copy instead of linking
+node tools/install.js --remove    # uninstall
+npm run build:zones               # rebuild ZoneNodes.lua from GatherMate2_Data after it updates
 ```
 
-Efter installation: `/reload` i spelet, eller starta om klienten om addonet är nytt.
+After installing, `/reload` in game, or restart the client if the addon is new.
 
-## Att verifiera i spelet (ej möjligt headless)
+## Verified in game
 
-- `/profbalance debug` ska visa interface 16001, dina professions med skill-line-id och
-  att zonen har noddata.
-- Att `GetProfessionInfo` ger rätt cap (75/150/225/300) på Forever.
-- Namn och levelspann för Zephras Isle/Riverglades (uiMapID 2521/2548).
-- Rank-trösklarna för Cooking/First Aid/Fishing (bok/quest på Forever).
+- Forever 1.60.1 build 70862, Interface 16001: loads, reads all professions with correct skill
+  lines, resolves the zone and its node data, minimap button sits on the rim.
 
-## Licens och källor
-
-ProfBalance är fri programvara under **GNU GPL v2 eller senare** (se `LICENSE`).
-Zontabellen `ProfBalance/ZoneNodes.lua` är ett aggregat (antal spawns per nodtyp och zon)
-härlett ur **GatherMate2_Data** av kagaro, Xinhuan, Spinx och Marrtin (GPL v2+), som i sin
-tur bygger på data från **Wowhead**. Skriptet som gör härledningen ligger i `tools/`.
-Skillkrav för noder och ranker är spelets egna värden, kontrollerade mot community-guider.
+Still to confirm by players at other levels: the rank reminders at skill 125/200, the inferred
+level ranges of Zephras Isle and Riverglades, and the rank thresholds of Cooking / First Aid /
+Fishing (book/quest based on Forever).
 
 ## Release
 
 ```
-node tools/package.js          # bygger dist/ProfBalance-<version>.zip för manuell uppladdning
-git tag v0.1.0 && git push --tags   # GitHub Actions bygger samma zip och skapar en release
+node tools/package.js               # builds dist/ProfBalance-<version>.zip for manual upload
+git tag v0.1.0 && git push --tags   # GitHub Actions builds the same zip and creates a release
 ```
 
-Uppladdning till CurseForge görs via deras webb (fil + text från `docs/curseforge-description.md`).
+CurseForge uploads are done through their website (zip plus the text in `docs/curseforge-description.md`).
 
-## Struktur
+## License and sources
+
+ProfBalance is free software under the **GNU GPL v2 or later** (see `LICENSE`).
+The zone table `ProfBalance/ZoneNodes.lua` is an aggregate (spawns per node type and zone)
+derived from **GatherMate2_Data** by kagaro, Xinhuan, Spinx and Marrtin (GPL v2+), which in
+turn is built from **Wowhead** data. The script that does the derivation lives in `tools/`.
+Node and rank skill requirements are the game's own values, checked against community guides.
+
+## Layout
 
 ```
 ProfBalance/
-  ProfBalance.toc   Interface 16001, AllowLoadGameType camelot
-  Data.lua          skill-lines, ranker, nodkrav, zoners levelspann
-  ZoneNodes.lua     genererad: nodantal per zon
-  Core.lua          ren logik (testbar utan WoW)
-  API.lua           pcall-skyddad WoW-API-wrapper, hanterar secret values
-  UI.lua            rutan och tooltips
-  ProfBalance.lua   events, SavedVariables, slash-kommandon
-tests/              fengari-baserad testsvit med WoW-mock
-tools/              install.js, build_zone_nodes.js
+  ProfBalance.toc    Interface 16001
+  Data.lua           skill lines, ranks, node requirements, zone level ranges
+  ZoneNodes.lua      generated: node counts per zone
+  Core.lua           pure logic (testable without WoW)
+  API.lua            pcall-guarded WoW API wrapper, treats secret values as missing
+  UI.lua             the window and tooltips
+  MinimapButton.lua  minimap button without libraries
+  ProfBalance.lua    events, SavedVariables, slash commands
+tests/               fengari-based test suite with a WoW mock
+tools/               install.js, package.js, build_zone_nodes.js
+docs/                design notes, CurseForge text, screenshots
 ```
