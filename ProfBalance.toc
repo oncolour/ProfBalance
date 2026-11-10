@@ -2,7 +2,7 @@
 ## Title: ProfBalance
 ## Notes: Are your professions keeping pace with your level? Pace per profession, what you can gather in this zone, and where to go next.
 ## Author: Oscar (oncolour)
-## Version: 0.1.1
+## Version: 0.1.2
 ## X-License: GPL-2.0-or-later
 ## X-Category: Professions
 ## X-Website: https://github.com/oncolour/ProfBalance
