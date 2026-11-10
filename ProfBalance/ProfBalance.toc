@@ -6,6 +6,7 @@
 ## X-License: GPL-2.0-or-later
 ## X-Category: Professions
 ## X-Website: https://github.com/oncolour/ProfBalance
+## X-CurseForge: https://www.curseforge.com/wow/addons/profbalance
 ## X-Credits: Zone node counts derived from GatherMate2_Data (GPL v2+, kagaro, Xinhuan, Spinx, Marrtin), itself built from Wowhead data.
 ## SavedVariables: ProfBalanceDB
 ## IconTexture: Interface\Icons\Trade_Mining

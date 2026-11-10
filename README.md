@@ -3,6 +3,8 @@
 A small addon for World of Warcraft: Forever that answers two questions while you level:
 *are my professions keeping pace with my character?* and *can I gather or skill up where I am right now?*
 
+Download: [CurseForge](https://www.curseforge.com/wow/addons/profbalance) · [GitHub releases](https://github.com/oncolour/ProfBalance/releases)
+
 ![Main window with tooltip](docs/screenshots/main-window-tooltip.png)
 
 ## What it shows
@@ -63,8 +65,9 @@ The addon also appears in the addon compartment menu next to the minimap.
 
 ## Installation
 
-**Players:** download the zip from the [latest release](https://github.com/oncolour/ProfBalance/releases)
-or CurseForge and unpack it so that you get `World of Warcraft\_forever_\Interface\AddOns\ProfBalance\ProfBalance.toc`.
+**Players:** install from [CurseForge](https://www.curseforge.com/wow/addons/profbalance) (works with the
+CurseForge app), or download the zip from the [latest release](https://github.com/oncolour/ProfBalance/releases)
+and unpack it so that you get `World of Warcraft\_forever_\Interface\AddOns\ProfBalance\ProfBalance.toc`.
 
 **Developers:**
 
