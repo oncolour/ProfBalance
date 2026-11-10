@@ -1,0 +1,20 @@
+## Interface: 16001
+## Title: ProfBalance
+## Notes: Are your professions keeping pace with your level? Pace per profession, what you can gather in this zone, and where to go next.
+## Author: Oscar (oncolour)
+## Version: 0.1.0
+## X-License: GPL-2.0-or-later
+## X-Category: Professions
+## X-Website: https://github.com/oncolour/ProfBalance
+## X-Credits: Zone node counts derived from GatherMate2_Data (GPL v2+, kagaro, Xinhuan, Spinx, Marrtin), itself built from Wowhead data.
+## SavedVariables: ProfBalanceDB
+## IconTexture: Interface\Icons\Trade_Mining
+## AddonCompartmentFunc: ProfBalance_OnCompartmentClick
+
+Data.lua
+ZoneNodes.lua
+Core.lua
+API.lua
+UI.lua
+MinimapButton.lua
+ProfBalance.lua

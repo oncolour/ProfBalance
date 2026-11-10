@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag matches TOC version
+        run: |
+          TOC_VERSION=$(grep -E '^## Version:' ProfBalance/ProfBalance.toc | awk '{print $3}')
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          echo "toc=$TOC_VERSION tag=$TAG_VERSION"
+          test "$TOC_VERSION" = "$TAG_VERSION"
+
+      - name: Build zip
+        run: |
+          mkdir -p dist/stage/ProfBalance
+          cp ProfBalance/*.lua ProfBalance/*.toc dist/stage/ProfBalance/
+          cp LICENSE dist/stage/ProfBalance/LICENSE.txt
+          cp CHANGELOG.md dist/stage/ProfBalance/
+          cd dist/stage && zip -r "../ProfBalance-${GITHUB_REF_NAME#v}.zip" ProfBalance
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/ProfBalance-*.zip \
+            --title "ProfBalance ${GITHUB_REF_NAME#v}" \
+            --notes-file CHANGELOG.md

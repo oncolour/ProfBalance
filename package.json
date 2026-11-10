@@ -1,0 +1,22 @@
+{
+  "name": "profbalance",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/run.js",
+    "build:zones": "node tools/build_zone_nodes.js > ProfBalance/ZoneNodes.lua",
+    "install": "node tools/install.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "fengari": "^0.1.5"
+  },
+  "private": true
+}
