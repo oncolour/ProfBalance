@@ -19,9 +19,10 @@ fs.rmSync(out, { force: true });
 const stage = path.join(dist, "stage");
 fs.rmSync(stage, { recursive: true, force: true });
 fs.mkdirSync(path.join(stage, "ProfBalance"), { recursive: true });
-for (const f of fs.readdirSync(addon)) {
-  if (/\.(lua|toc|xml|md|txt|tga|blp)$/i.test(f)) fs.copyFileSync(path.join(addon, f), path.join(stage, "ProfBalance", f));
-}
+fs.cpSync(addon, path.join(stage, "ProfBalance"), {
+  recursive: true,
+  filter: (src) => fs.statSync(src).isDirectory() || /\.(lua|toc|xml|md|txt|tga|blp)$/i.test(src),
+});
 fs.copyFileSync(path.join(root, "LICENSE"), path.join(stage, "ProfBalance", "LICENSE.txt"));
 fs.copyFileSync(path.join(root, "CHANGELOG.md"), path.join(stage, "ProfBalance", "CHANGELOG.md"));
 

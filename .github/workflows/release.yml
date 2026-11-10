@@ -25,6 +25,7 @@ jobs:
         run: |
           mkdir -p dist/stage/ProfBalance
           cp ProfBalance/*.lua ProfBalance/*.toc dist/stage/ProfBalance/
+          cp -r ProfBalance/Media dist/stage/ProfBalance/
           cp LICENSE dist/stage/ProfBalance/LICENSE.txt
           cp CHANGELOG.md dist/stage/ProfBalance/
           cd dist/stage && zip -r "../ProfBalance-${GITHUB_REF_NAME#v}.zip" ProfBalance
