@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 (2026-11-10)
+
+- Own icon from the ProfBalance logo on the minimap button and in the addon list.
+- Minimap button sits on the rim for large or rescaled minimaps and respects square minimap shapes.
+- CurseForge link in the TOC.
+
 ## 0.1.0 (2026-11-10)
 
 First public release for World of Warcraft: Forever (Interface 16001).
